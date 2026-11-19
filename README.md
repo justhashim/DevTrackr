@@ -39,4 +39,4 @@ The database URL, username, password and JWT secret are read from `backend/src/m
 
 ## Notes
 
-A personal project from November 2025. It doesn't track tech stacks or progress, only status and due date. Projects are shared across all users, not scoped per account. Placeholder database credentials and a JWT secret are committed in `application.properties`, so treat them as burned and move them to environment variables before deploying anything. There are no tests beyond the Spring context test.
+A personal project from November 2025. It doesn't track tech stacks or progress, only status and due date. Projects are shared across all users, not scoped per account. A database password and a JWT secret are committed in `application.properties`, so treat them as burned and move them to environment variables before deploying anything. There are no tests beyond the Spring context test.
