@@ -1,47 +1,42 @@
 # DevTrackr
 
-[![GitHub stars](https://img.shields.io/github/stars/HashimCodeDev/DevTrackr?style=social)](https://github.com/HashimCodeDev/DevTrackr/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/HashimCodeDev/DevTrackr?style=social)](https://github.com/HashimCodeDev/DevTrackr/network/members)
-[![GitHub contributors](https://img.shields.io/github/contributors/HashimCodeDev/DevTrackr)](https://github.com/HashimCodeDev/DevTrackr/graphs/contributors)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/HashimCodeDev/DevTrackr)](https://github.com/HashimCodeDev/DevTrackr/commits/main)
-[![GitHub issues](https://img.shields.io/github/issues/HashimCodeDev/DevTrackr)](https://github.com/HashimCodeDev/DevTrackr/issues)
+A small project tracker with a Spring Boot API and a Next.js frontend.
 
-## About
+## What it does
 
-DevTrackr is a personal project management application designed to help you keep track of your projects efficiently.
+- Register and log in (JWT).
+- Create, edit and delete projects with a name, description, due date and status: `PENDING`, `ACTIVE` or `COMPLETED`.
+- Change a project's status with a single call.
+- List projects with pagination and sorting, filter by status, and search from the UI.
 
-## Repository Statistics
+## How it works
 
-| Metric        | Count                                                          |
-| ------------- | -------------------------------------------------------------- |
-| Stars         | ![GitHub stars](https://img.shields.io/github/stars/HashimCodeDev/DevTrackr)       |
-| Forks         | ![GitHub forks](https://img.shields.io/github/forks/HashimCodeDev/DevTrackr)       |
-| Contributors  | ![GitHub contributors](https://img.shields.io/github/contributors/HashimCodeDev/DevTrackr) |
-| Commits       | ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/HashimCodeDev/DevTrackr) |
-| Open Issues   | ![GitHub issues](https://img.shields.io/github/issues/HashimCodeDev/DevTrackr)      |
+The frontend talks to the backend at `/api` (default `http://localhost:8080/api`) with Axios and TanStack Query. The JWT is kept in `localStorage` and sent as a Bearer token. Spring Security is stateless: everything except `/api/auth/**` needs a token. Tables are created by Hibernate (`ddl-auto=update`), so there are no migrations.
 
-## Support Me
+Endpoints: `POST /api/auth/register`, `POST /api/auth/login`, and `GET, POST /api/projects`, `GET, PUT, DELETE /api/projects/{id}`, `PATCH /api/projects/{id}/status`. See `backend/API_DOCUMENTATION.md`.
 
-If you find this project helpful, please consider supporting me:
+## Stack
 
-- ⭐ Star the repo to show your support
-- 💖 Sponsor me on [GitHub Sponsors](https://github.com/sponsors/HashimCodeDev)
-- ☕ Buy me a coffee [Paypal](https://www.paypal.me/Hashim1729)
-- Share the project with others who might benefit
+- **Backend:** Java 17, Spring Boot, Spring Security, Spring Data JPA, jjwt, PostgreSQL
+- **Frontend:** Next.js 16, React 19, Tailwind CSS 4, TanStack Query and Table, react-hook-form, zod, GSAP and three.js for the landing visuals
 
-## Contribute
+## Run it locally
 
-Contributions are welcome! Here’s how you can help:
+You need Java 17, Node.js with pnpm, and a PostgreSQL database named `devtrackr`.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature-name`)
-3. Commit your changes (`git commit -m 'Add some feature'`)
-4. Push to the branch (`git push origin feature-name`)
-5. Open a Pull Request
+```bash
+# backend, on :8080
+cd backend
+./mvnw spring-boot:run
 
-Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file (if created) for detailed guidelines.
+# frontend, on :3000
+cd frontend
+pnpm install
+pnpm dev
+```
 
----
+The database URL, username, password and JWT secret are read from `backend/src/main/resources/application.properties` (`spring.datasource.*`, `jwt.secret`, `jwt.expiration`). Set your own before running. The frontend reads `NEXT_PUBLIC_API_URL` if the API isn't on `localhost:8080`; its login and register route handlers point at `http://localhost:8080/api` directly.
 
-Thank you for checking out DevTrackr! 🙌
+## Notes
 
+A personal project from November 2025. It doesn't track tech stacks or progress, only status and due date. Projects are shared across all users, not scoped per account. Placeholder database credentials and a JWT secret are committed in `application.properties`, so treat them as burned and move them to environment variables before deploying anything. There are no tests beyond the Spring context test.
